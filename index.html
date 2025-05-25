@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Loan Calculator</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h1>Loan Calculator</h1>
+
+    <div class="form-group">
+      <label>Loan Amount (₹)</label>
+      <input type="number" id="principal" placeholder="e.g. 100000">
+    </div>
+
+    <div class="form-group">
+      <label>Monthly Interest Rate (%)</label>
+      <input type="number" id="interest" placeholder="e.g. 1.2">
+    </div>
+
+    <div class="form-group">
+      <label>Number of Payments (Months)</label>
+      <input type="number" id="months" placeholder="e.g. 12">
+    </div>
+
+    <button onclick="calculate()">Calculate</button>
+
+    <div class="result">
+      <p>Monthly Payment: ₹ <span id="payment">0.00</span></p>
+    </div>
+
+    <footer>
+      <p>Created by Prathamesh</p>
+      <p>Made with ❤</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
