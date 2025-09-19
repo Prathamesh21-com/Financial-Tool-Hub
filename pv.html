@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Present Value Calculator | Financial Tool Hub</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: white;
+      overflow-x: hidden;
+    }
+    
+    /* Navigation */
+    .navbar {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 15px 25px;
+      margin: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .navbar .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: white;
+    }
+    
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 25px;
+    }
+    
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 15px;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-links a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+    
+    .back-arrow {
+      color: white;
+      font-size: 1.5rem;
+      text-decoration: none;
+      margin-right: 15px;
+      transition: color 0.3s;
+    }
+    
+    .back-arrow:hover {
+      color: #ffd700;
+    }
+    
+    /* Dark Mode Toggle */
+    .dark-mode-toggle {
+      display: flex;
+      align-items: center;
+    }
+    
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+    
+    .switch input { 
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 24px;
+    }
+    
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .slider {
+      background-color: #7209b7;
+    }
+    
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+    
+    /* Calculator Container */
+    .calculator-container {
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .calculator-container h1 {
+      text-align: center;
+      font-size: 2.2rem;
+      margin-bottom: 30px;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      position: relative;
+      padding-bottom: 15px;
+    }
+    
+    .calculator-container h1:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      background: #ff5252;
+      border-radius: 2px;
+    }
+    
+    .input-group {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      font-size: 1.1rem;
+    }
+    
+    input {
+      width: 100%;
+      padding: 12px 15px;
+      border: none;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.9);
+      font-size: 1rem;
+      color: #333;
+      transition: all 0.3s ease;
+    }
+    
+    input:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 15px;
+      margin-top: 30px;
+    }
+    
+    button {
+      flex: 1;
+      padding: 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    button.calculate {
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      color: white;
+    }
+    
+    button.reset {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+    
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Result Box */
+    .result-box {
+      margin-top: 30px;
+      padding: 20px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      font-size: 1.1rem;
+      display: none;
+      text-align: center;
+    }
+    
+    .result-box.show {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+    
+    .result-value {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #ffd700;
+      margin: 15px 0;
+    }
+    
+    .result-explanation {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Footer */
+    .creative-footer {
+      background: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(5px);
+      text-align: center;
+      padding: 15px;
+      border-radius: 10px;
+      margin: 20px;
+      animation: glow 2s infinite alternate;
+    }
+    
+    .glow {
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    }
+    
+    .heart {
+      color: #ff5252;
+      animation: heartbeat 1.5s infinite;
+    }
+    
+    /* Animated Background Elements */
+    .bg-circle {
+      position: fixed;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      animation: float 15s infinite ease-in-out;
+      z-index: -1;
+    }
+    
+    .circle-1 {
+      width: 300px;
+      height: 300px;
+      top: -150px;
+      left: -150px;
+      animation-delay: 0s;
+    }
+    
+    .circle-2 {
+      width: 200px;
+      height: 200px;
+      bottom: -100px;
+      right: -100px;
+      animation-delay: -5s;
+    }
+    
+    /* Dark Mode */
+    body.dark-mode {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    }
+    
+    body.dark-mode .navbar {
+      background: rgba(30, 30, 30, 0.8);
+    }
+    
+    body.dark-mode .calculator-container {
+      background: rgba(30, 30, 30, 0.8);
+    }
+    
+    body.dark-mode input {
+      background: rgba(255, 255, 255, 0.8);
+    }
+    
+    /* Animations */
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-20px) rotate(10deg);
+      }
+    }
+    
+    @keyframes glow {
+      from {
+        box-shadow: 0 0 5px rgba(255, 105, 180, 0.5);
+      }
+      to {
+        box-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
+      }
+    }
+    
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.1); }
+      50% { transform: scale(1); }
+      75% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+      }
+      
+      .calculator-container {
+        margin: 15px;
+        padding: 20px;
+      }
+      
+      .calculator-container h1 {
+        font-size: 1.8rem;
+      }
+      
+      .button-group {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated background elements -->
+  <div class="bg-circle circle-1"></div>
+  <div class="bg-circle circle-2"></div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <a href="../index.html" class="back-arrow">⬅</a>
+    <div class="logo">💰 Financial Tool Hub</div>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../about.html">About Me</a></li>
+      <li><a href="../donate.html">Donate</a></li>
+      <li><a href="privacy.html">Privacy Policy</a></li>
+    </ul>
+    <div class="dark-mode-toggle">
+      <label class="switch">
+        <input type="checkbox" id="dark-mode-toggle">
+        <span class="slider round"></span>
+      </label>
+    </div>
+  </nav>
+
+  <!-- Calculator Container -->
+  <main class="calculator-container">
+    <h1>Present Value Calculator</h1>
+
+    <div class="input-group">
+      <label for="futureValue">Future Value (₹):</label>
+      <input type="number" id="futureValue" placeholder="Enter future amount" min="0" step="100">
+    </div>
+
+    <div class="input-group">
+      <label for="rate">Discount Rate (% per year):</label>
+      <input type="number" id="rate" placeholder="Enter discount rate" min="0" max="50" step="0.1">
+    </div>
+
+    <div class="input-group">
+      <label for="years">Number of Years:</label>
+      <input type="number" id="years" placeholder="Enter years" min="0" max="100" step="1">
+    </div>
+
+    <div class="button-group">
+      <button class="calculate" onclick="calculatePV()">Calculate</button>
+      <button class="reset" onclick="resetPV()">Reset</button>
+    </div>
+
+    <div id="result" class="result-box">
+      <h3>Present Value:</h3>
+      <div class="result-value" id="present-value">₹0</div>
+      <div class="result-explanation" id="explanation">
+        This is the current worth of a future sum of money given a specified rate of return.
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer Section -->
+  <div class="creative-footer">
+    Created by <span class="glow">Prathamesh Kajrekar</span> | Made with <span class="heart">❤</span>
+  </div>
+
+  <script src="pv.js"></script>
+</body>
+</html>
