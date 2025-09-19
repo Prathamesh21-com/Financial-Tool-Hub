@@ -1,167 +1,445 @@
+/* ---------- Base Styles ---------- */
 body {
   margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(120deg, #74ebd5, #9face6);
-  transition: background 0.5s ease;
-}
-
-.container {
-  max-width: 400px;
-  margin: 50px auto;
-  padding: 30px;
-  background: rgba(20, 20, 60, 0.9);
-  border-radius: 10px;
-  color: white;
-  box-shadow: 0 0 20px rgba(0,0,0,0.2);
-  position: relative;
-}
-
-h1 {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to bottom right, #e0c3fc, #8ec5fc);
+  color: #000;
   text-align: center;
-  margin-bottom: 20px;
+  transition: background 0.3s, color 0.3s;
 }
 
-.input-group {
-  margin-bottom: 15px;
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-.input-group label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-/* Style for inputs */
-input {
+/* ---------- Welcome Screen ---------- */
+#welcome-screen {
+  position: fixed;
   width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 6px;
-  font-size: 1em;
+  height: 100%;
+  background: linear-gradient(to bottom right, #8e2de2, #4a00e0);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  z-index: 10;
+  font-size: 2em;
+  animation: fadeIn 1s ease-in;
 }
 
-/* Buttons styling */
-.buttons {
+#welcome-screen.hide {
+  animation: fadeOut 0.5s ease-out forwards;
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; visibility: hidden; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ---------- Navbar ---------- */
+nav {
+  background-color: #5f0fff;
+  padding: 15px;
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 20px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1em;
+  padding: 8px 15px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+nav a:hover {
+  background: rgba(255, 255, 255, 0.2);
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+
+/* ---------- Dark Mode Toggle ---------- */
+.dark-mode-toggle {
+  display: flex;
+  align-items: center;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.switch input { display: none; }
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 24px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider { background-color: #7209b7; }
+input:checked + .slider:before { transform: translateX(26px); }
+
+/* ---------- Calculator Links (Homepage) ---------- */
+.calculator-links {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.calculator-links a {
+  background-color: #5f0fff;
+  color: white;
+  padding: 15px 25px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  flex: 1;
+  min-width: 200px;
+  max-width: 250px;
+}
+
+.calculator-links a:hover { 
+  background-color: #4a00e0; 
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* ---------- Calculator Pages ---------- */
+.calculator-container {
+  max-width: 500px;
+  margin: 40px auto;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0px 8px 25px rgba(0,0,0,0.2);
+  text-align: left;
+}
+
+.calculator-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+}
+
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: 500;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  font-size: 16px; /* Prevents zoom on iOS */
 }
 
 button {
-  padding: 10px 20px;
+  margin-top: 20px;
+  width: 100%;
+  padding: 14px;
+  background: #5f0fff;
+  color: #fff;
   border: none;
-  border-radius: 6px;
-  font-weight: bold;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: all 0.3s;
 }
 
-button:hover {
-  background: #00c6ff;
-  color: white;
+button:hover { 
+  background: #4a00e0; 
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
-/* 🎨 Result Card Styling */
-.result-card {
+/* ---------- Footer ---------- */
+.page-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  margin-top: 30px;
-  opacity: 0;
-  transition: opacity 1s ease;
+  min-height: 100vh;
 }
 
-.result-card.show {
-  opacity: 1;
-}
-
-.result-box {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 15px 20px;
-  border-radius: 10px;
+.creative-footer {
   text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(5px);
+  font-size: 1rem;
+  color: white;
+  margin-top: auto;
+  padding: 20px 0;
+  font-weight: 500;
 }
 
-.result-box h3 {
-  margin: 0;
-  font-size: 1.1em;
-  color: #ffc107;
-}
-
-.result-box p {
-  margin: 5px 0 0;
-  font-size: 1.3em;
+.glow {
+  color: #ffccff;
+  text-shadow: 0 0 5px #ff0000, 0 0 10px #ff00ff;
   font-weight: bold;
-  color: #fff;
 }
 
-footer {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 0.9em;
-  color: #ccc;
+.heart {
+  color: #fb0000;
+  animation: beat 1.2s infinite;
+  display: inline-block;
+  transform-origin: center;
 }
 
-/* 🌙 Dark Mode */
+@keyframes beat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+}
+
+/* ---------- Dark Mode Pages ---------- */
 body.dark {
   background: #121212;
-}
-
-body.dark .container {
-  background: #1e1e1e;
   color: #eee;
 }
 
-.toggle-mode {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: #444;
-  color: #fff;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-size: 1em;
+body.dark nav { background: #333; }
+body.dark nav a { color: #eee; }
+body.dark nav a:hover { 
+  color: #ffd60a; 
+  background: rgba(255, 255, 255, 0.1);
 }
 
-/* ===== New Styles for Currency Selector ===== */
-
-/* Wrapper for the select to show custom arrow */
-.select-wrapper {
-  position: relative;
-  width: 100%;
-  display: inline-block;
-  margin-bottom: 15px; /* consistent spacing with input groups */
+body.dark .calculator-container {
+  background: rgba(30, 30, 30, 0.9);
+  color: #eee;
 }
 
-/* Arrow icon on the right */
-.select-wrapper::after {
-  content: "▼"; /* downwards arrow */
-  font-size: 0.7em;
-  color: #555;
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none; /* ensure clicks go to select */
-  user-select: none;
+/* ---------- Improved Back Arrow ---------- */
+.back-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  color: white;
+  text-decoration: none;
+  font-size: 1.4rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* Style the select itself */
-.custom-select {
-  width: 100%;
-  padding: 10px 40px 10px 10px; /* padding right for arrow */
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1em;
-  background-color: white;
-  color: black;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  cursor: pointer;
-  box-sizing: border-box;
+.back-arrow:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  color: #ffd700;
+}
+
+/* For dark mode */
+body.dark .back-arrow {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark .back-arrow:hover {
+  background: rgba(0, 0, 0, 0.35);
+  color: #ffd700;
+}
+
+/* Dark Mode */
+body.dark {
+  background: linear-gradient(to bottom right, #1a1a1a, #333);
+  color: #f1f1f1;
+}
+body.dark nav {
+  background-color: #222;
+}
+body.dark .calculator-links a {
+  background-color: #333;
+}
+body.dark .calculator-links a:hover {
+  background-color: #555;
+  transform: translateY(-5px);
+}
+
+/* Result Box */
+.result-box {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 10px;
+  background: rgba(95, 15, 255, 0.1);
+  border: 2px solid #5f0fff;
+  box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-align: center;
+  transition: background 0.3s, color 0.3s;
+}
+body.dark .result-box {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: #ffd60a;
+  color: #ffd60a;
+}
+
+/* ---------- Mobile Responsiveness ---------- */
+@media screen and (max-width: 768px) {
+  /* Navigation improvements */
+  nav {
+    flex-direction: column;
+    gap: 15px;
+    padding: 12px;
+  }
+  
+  nav ul {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+  
+  nav a {
+    text-align: center;
+    display: block;
+    width: 100%;
+    padding: 10px;
+  }
+  
+  /* Calculator cards improvements */
+  .calculator-links {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .calculator-links a {
+    min-width: unset;
+    width: 100%;
+    max-width: 300px;
+    padding: 15px;
+  }
+  
+  /* Calculator container improvements */
+  .calculator-container {
+    margin: 20px 15px;
+    padding: 20px;
+  }
+  
+  .calculator-container h1 {
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+  }
+  
+  /* Form improvements */
+  input {
+    padding: 14px;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  /* Button improvements for mobile */
+  button {
+    padding: 16px;
+    font-size: 1.1rem;
+  }
+  
+  /* Result display improvements */
+  .result-box {
+    padding: 15px;
+    font-size: 1rem;
+  }
+  
+  /* Footer improvements */
+  .creative-footer {
+    padding: 15px 10px;
+    font-size: 0.9rem;
+    margin: 0 15px 15px;
+  }
+  
+  /* Welcome screen text size reduction */
+  #welcome-screen {
+    font-size: 1.5em;
+  }
+  
+  #welcome-screen h1 {
+    font-size: 2.5rem;
+  }
+  
+  #welcome-screen h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  /* Further mobile adjustments */
+  nav {
+    padding: 10px;
+  }
+  
+  .calculator-container {
+    margin: 15px 10px;
+    padding: 15px;
+  }
+  
+  .calculator-links a {
+    padding: 12px;
+  }
+  
+  /* Back arrow size adjustment */
+  .back-arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+}
+
+/* ---------- Tablet Responsiveness ---------- */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .calculator-links {
+    gap: 15px;
+  }
+  
+  .calculator-links a {
+    min-width: 180px;
+    padding: 12px 20px;
+  }
+  
+  nav ul {
+    gap: 20px;
+  }
 }
