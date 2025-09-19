@@ -1,0 +1,99 @@
+/* Global Reset and Font */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #e0d4fd, #fbeeff);
+  color: #333;
+  min-height: 100vh;
+}
+
+/* Container Styles */
+.container {
+  max-width: 500px;
+  width: 90%;
+  margin: 40px auto;
+  padding: 25px 20px;
+  background: rgba(20, 20, 60, 0.9);
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  color: white;
+  text-align: center;
+}
+
+/* Header Text */
+h1 {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  margin-bottom: 20px;
+}
+
+/* Paragraph Message */
+.container p {
+  font-size: clamp(1rem, 2.5vw, 1.15rem);
+  line-height: 1.5;
+}
+
+/* QR Section */
+.qr-section {
+  margin: 30px 0;
+}
+
+.qr-section img {
+  width: 80%;
+  max-width: 250px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.qr-section p {
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #ffc107;
+}
+
+/* Donate Button */
+button {
+  background: linear-gradient(135deg, #ff4081, #ff9800);
+  border: none;
+  color: white;
+  padding: 14px 35px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-top: 15px;
+  box-shadow: 0 5px 15px rgba(255, 64, 129, 0.3);
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(255, 152, 0, 0.4);
+}
+
+/* Footer */
+footer {
+  margin-top: 30px;
+  font-size: 0.85rem;
+  color: #bbb;  /* light grey */
+}
+
+footer p {
+  margin: 5px 0;
+  color: #bbb;  /* light grey */
+}
+
+/* Responsive for very small screens */
+@media screen and (max-width: 360px) {
+  button {
+    width: 100%;
+    font-size: 1rem;
+    padding: 12px;
+  }
+
+  .qr-section p {
+    font-size: 1rem;
+  }
+}
