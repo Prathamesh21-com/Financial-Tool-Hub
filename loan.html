@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Loan Calculator | Financial Tool Hub</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../style.css">
   <style>
     * {
       margin: 0;
@@ -421,21 +422,27 @@
 
   <!-- Navigation Bar -->
   <nav class="navbar">
-    <a href="../index.html" class="back-arrow">⬅</a>
-    <div class="logo">💰 Financial Tool Hub</div>
-    <ul class="nav-links">
-      <li><a href="../index.html">Home</a></li>
-      <li><a href="../about.html">About Me</a></li>
-      <li><a href="../donate.html">Donate</a></li>
-      <li><a href="privacy.html">Privacy Policy</a></li>
-    </ul>
-    <div class="dark-mode-toggle">
-      <label class="switch">
-        <input type="checkbox" id="dark-mode-toggle">
-        <span class="slider round"></span>
+  <div class="nav-container">
+    <!-- Back Button -->
+    <button id="backButton" class="back-btn" aria-label="Go back">
+      <span class="back-arrow">←</span> Back
+    </button>
+    
+    <!-- Site Title -->
+    <a href="/Financial-Tool-Hub/index.html" class="nav-title">
+      Financial Tool Hub
+    </a>
+    
+    <!-- Dark Mode Toggle -->
+    <div class="dark-mode-toggle-container">
+      <label class="toggle-switch" aria-label="Toggle dark mode">
+        <input type="checkbox" id="darkModeToggle">
+        <span class="slider"></span>
       </label>
+      <span class="toggle-label">Dark Mode</span>
     </div>
-  </nav>
+  </div>
+</nav>
 
   <!-- Calculator Container -->
   <main class="calculator-container">
@@ -502,6 +509,8 @@
     Created by <span class="glow">Prathamesh Kajrekar</span> | Made with <span class="heart">❤</span>
   </div>
 
+  <script src="../script.js"></script>
   <script src="loan.js"></script>
 </body>
+
 </html>
