@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const toggle = document.getElementById("dark-mode-toggle");
+  const toggle = document.getElementById("darkModeToggle");
 
   // Restore dark mode on reload
   if (localStorage.getItem("darkMode") === "true") {
@@ -149,4 +149,5 @@ style.textContent = `
     75% { transform: translateX(-10px); }
   }
 `;
+
 document.head.appendChild(style);
