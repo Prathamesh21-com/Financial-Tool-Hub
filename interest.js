@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const toggle = document.getElementById("dark-mode-toggle");
-  const interestType = document.getElementById("interest-type");
+  const toggle = document.getElementById("darkModeToggle");
   const compoundFrequencyGroup = document.getElementById("compound-frequency-group");
+  const interestTypeBtns = document.querySelectorAll(".interest-type-btn");
 
   // Restore dark mode on reload
   if (localStorage.getItem("darkMode") === "true") {
@@ -17,13 +17,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Show/hide compound frequency based on interest type
-  interestType.addEventListener("change", function() {
-    if (this.value === "compound") {
-      compoundFrequencyGroup.style.display = "block";
-    } else {
-      compoundFrequencyGroup.style.display = "none";
-    }
+  // Handle interest type button clicks
+  interestTypeBtns.forEach(btn => {
+    btn.addEventListener("click", function() {
+      // Remove active class from all buttons
+      interestTypeBtns.forEach(b => b.classList.remove("active"));
+      
+      // Add active class to clicked button
+      this.classList.add("active");
+      
+      // Show/hide compound frequency
+      if (this.dataset.type === "compound") {
+        compoundFrequencyGroup.style.display = "block";
+      } else {
+        compoundFrequencyGroup.style.display = "none";
+      }
+    });
   });
 
   // Add input validation
@@ -36,16 +45,29 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function calculateInterest() {
-  const principal = parseFloat(document.getElementById("principal").value);
-  const rate = parseFloat(document.getElementById("rate").value);
-  const time = parseFloat(document.getElementById("time").value);
-  const interestType = document.getElementById("interest-type").value;
+  const principalInput = document.getElementById("principal");
+  const rateInput = document.getElementById("rate");
+  const timeInput = document.getElementById("time");
+  
+  const principal = parseFloat(principalInput.value);
+  const rate = parseFloat(rateInput.value);
+  const time = parseFloat(timeInput.value);
+  
+  // Get active interest type from buttons
+  const activeBtn = document.querySelector(".interest-type-btn.active");
+  const interestType = activeBtn ? activeBtn.dataset.type : "simple";
+  
   const resultDiv = document.getElementById("result");
   const comparisonChart = document.getElementById("comparison-chart");
 
   // Validation
-  if (isNaN(principal) || isNaN(rate) || isNaN(time) || principal <= 0 || rate <= 0 || time <= 0) {
-    showError("⚠️ Please enter valid positive numbers.");
+  if (!principal || !rate || !time) {
+    showError("⚠️ Please enter all required fields.");
+    return;
+  }
+
+  if (principal <= 0 || rate <= 0 || time <= 0) {
+    showError("⚠️ Please enter positive numbers greater than zero.");
     return;
   }
 
@@ -129,7 +151,11 @@ function showComparison(principal, rate, time, compoundInterest, compoundTotal) 
 
 function showError(message) {
   const resultDiv = document.getElementById("result");
-  resultDiv.innerHTML = `<p style='color: #ff5252; text-align: center; font-weight: bold;'>${message}</p>`;
+  resultDiv.innerHTML = `
+    <div class="result-item">
+      <span style="color: #ff5252; text-align: center; font-weight: bold;">${message}</span>
+    </div>
+  `;
   resultDiv.classList.add('show');
   
   // Hide comparison chart on error
@@ -146,10 +172,27 @@ function resetInterest() {
   document.getElementById("principal").value = "";
   document.getElementById("rate").value = "";
   document.getElementById("time").value = "";
-  document.getElementById("interest-type").value = "simple";
+  
+  // Reset interest type buttons to simple
+  const interestTypeBtns = document.querySelectorAll(".interest-type-btn");
+  interestTypeBtns.forEach(btn => {
+    btn.classList.remove("active");
+    if (btn.dataset.type === "simple") {
+      btn.classList.add("active");
+    }
+  });
+  
   document.getElementById("compound-frequency-group").style.display = "none";
+  
+  // Reset result display
+  document.getElementById("interest").textContent = "₹0.00";
+  document.getElementById("total-amount").textContent = "₹0.00";
   document.getElementById("result").classList.remove("show");
   document.getElementById("comparison-chart").style.display = "none";
+  
+  // Reset chart widths
+  document.getElementById("simple-chart").style.width = "0%";
+  document.getElementById("compound-chart").style.width = "0%";
 }
 
 // Add keypress event to calculate when Enter is pressed
