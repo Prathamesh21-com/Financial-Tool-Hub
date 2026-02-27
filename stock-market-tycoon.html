@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Market Tycoon - Financial Tool Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="games.css">
+    <style>
+        /* Game-specific overrides */
+        .stock-price {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .quick-action-btn {
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .quick-buy {
+            background: rgba(107, 207, 127, 0.2);
+            color: #6bcf7f;
+            border: 1px solid rgba(107, 207, 127, 0.3);
+        }
+        
+        .quick-sell {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+        
+        .quick-action-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .market-status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-left: 15px;
+        }
+        
+        .market-up {
+            background: rgba(107, 207, 127, 0.2);
+            color: #6bcf7f;
+        }
+        
+        .market-down {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated background elements -->
+    <div class="bg-circle circle-1"></div>
+    <div class="bg-circle circle-2"></div>
+
+    <div class="games-wrapper">
+        <!-- Navigation - Same as calculators -->
+        <nav>
+            <div class="nav-left">
+                <button id="backButton" class="back-btn">
+                    <span>←</span> Back
+                </button>
+                <a href="../index.html" class="nav-title">
+                    Financial Tool Hub
+                </a>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="../donate.html">Donate</a></li>
+                <li><a href="../privacy.html">Privacy</a></li>
+            </ul>
+            
+            <div class="nav-right">
+                <div class="dark-toggle-container">
+                    <label class="switch">
+                        <input type="checkbox" id="darkModeToggle">
+                        <span class="slider"></span>
+                    </label>
+                    <span class="toggle-label">Dark Mode</span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Game Header -->
+        <div class="game-header">
+            <h1><i class="fas fa-chart-line"></i> Stock Market Tycoon</h1>
+            <p class="game-subtitle">Buy and sell stocks in a simulated market. Start with $10,000 and grow your portfolio!</p>
+            <div class="game-goal">🎯 Goal: Reach $20,000 to win!</div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label"><i class="fas fa-wallet"></i> CASH BALANCE</div>
+                <div class="stat-value" id="cash-balance">$10,000</div>
+                <div class="stat-label">Available for trading</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label"><i class="fas fa-briefcase"></i> PORTFOLIO VALUE</div>
+                <div class="stat-value" id="portfolio-value">$0</div>
+                <div class="stat-label">Current holdings value</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label"><i class="fas fa-trophy"></i> NET WORTH</div>
+                <div class="stat-value" id="net-worth">$10,000</div>
+                <div class="stat-label">Your total wealth</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label"><i class="fas fa-calendar-day"></i> MARKET DAY</div>
+                <div class="stat-value" id="current-day">1</div>
+                <div class="stat-label">Next update: <span class="timer" id="timer">30</span>s</div>
+            </div>
+        </div>
+
+        <!-- Game Layout -->
+        <div class="game-layout">
+            <!-- Left Column -->
+            <div>
+                <!-- Stock Market Panel -->
+                <div class="game-panel">
+                    <h2 class="panel-title"><i class="fas fa-chart-bar"></i> Live Stock Market</h2>
+                    <div class="game-table-wrapper">
+                        <table class="game-table" id="stocks-table">
+                            <thead>
+                                <tr>
+                                    <th>Company</th>
+                                    <th>Symbol</th>
+                                    <th>Price</th>
+                                    <th>Change</th>
+                                    <th>Owned</th>
+                                    <th>Value</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="stocks-list">
+                                <!-- Stocks loaded by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="game-controls">
+                        <select class="game-input" id="stock-select">
+                            <option value="">Select a stock...</option>
+                        </select>
+                        <input type="number" class="game-input" id="shares-input" placeholder="Number of shares" min="1">
+                        <button class="game-btn game-btn-buy" id="buy-btn">
+                            <i class="fas fa-shopping-cart"></i> Buy Stock
+                        </button>
+                        <button class="game-btn game-btn-sell" id="sell-btn">
+                            <i class="fas fa-money-bill-wave"></i> Sell Stock
+                        </button>
+                    </div>
+                </div>
+
+                <!-- News Feed -->
+                <div class="game-panel">
+                    <h2 class="panel-title"><i class="fas fa-newspaper"></i> Market News</h2>
+                    <div class="news-feed" id="news-container">
+                        <!-- News items loaded by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div>
+                <!-- Portfolio Panel -->
+                <div class="game-panel">
+                    <h2 class="panel-title"><i class="fas fa-briefcase"></i> Your Portfolio</h2>
+                    <div id="portfolio-container">
+                        <div id="empty-portfolio" style="text-align: center; padding: 40px; color: rgba(255, 255, 255, 0.5);">
+                            <i class="fas fa-box-open" style="font-size: 3rem; margin-bottom: 20px; display: block;"></i>
+                            <p>Your portfolio is empty.<br>Buy some stocks to get started!</p>
+                        </div>
+                        <div class="portfolio-items" id="portfolio-items">
+                            <!-- Portfolio items loaded by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transaction Log -->
+                <div class="game-panel">
+                    <h2 class="panel-title"><i class="fas fa-history"></i> Transaction History</h2>
+                    <div class="transaction-log" id="transaction-log">
+                        <!-- Transactions loaded by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Game Controls -->
+                <div class="game-info">
+                    <div style="flex: 1;">
+                        <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem;">
+                            <i class="fas fa-info-circle"></i> Market updates every 30 seconds
+                        </p>
+                    </div>
+                    <div>
+                        <button class="game-btn game-btn-secondary" id="reset-btn">
+                            <i class="fas fa-redo"></i> Reset Game
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Footer -->
+        <div class="game-footer">
+            <p>💡 <strong>Tip:</strong> Diversify your investments and watch market news for trends!</p>
+            <p><small>Stock Market Tycoon is a simulated game for educational purposes only.</small></p>
+        </div>
+    </div>
+
+    <script src="../script.js"></script>
+    <script src="stock-market-tycoon.js"></script>
+</body>
+</html>

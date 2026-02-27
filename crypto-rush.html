@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Rush - Financial Tool Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="games.css">
+    <style>
+        /* Crypto-specific styles */
+        .crypto-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .mining-rig {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.1) 0%, 
+                rgba(255, 255, 255, 0.05) 100%);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .mining-rig:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .hash-rate {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #4d96ff;
+        }
+        
+        .mining-animation {
+            text-align: center;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        
+        .miner-icon {
+            font-size: 4rem;
+            color: #ffd93d;
+            animation: mine 1.5s infinite;
+        }
+        
+        @keyframes mine {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-circle circle-1"></div>
+    <div class="bg-circle circle-2"></div>
+
+    <div class="games-wrapper">
+        <nav>
+            <div class="nav-left">
+                <button id="backButton" class="back-btn">
+                    <span>←</span> Back
+                </button>
+                <a href="../index.html" class="nav-title">
+                    Financial Tool Hub
+                </a>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="../donate.html">Donate</a></li>
+                <li><a href="../privacy.html">Privacy</a></li>
+            </ul>
+            
+            <div class="nav-right">
+                <div class="dark-toggle-container">
+                    <label class="switch">
+                        <input type="checkbox" id="darkModeToggle">
+                        <span class="slider"></span>
+                    </label>
+                    <span class="toggle-label">Dark Mode</span>
+                </div>
+            </div>
+        </nav>
+
+        <div class="game-header">
+            <h1><i class="fas fa-coins"></i> Crypto Rush</h1>
+            <p class="game-subtitle">Build your cryptocurrency mining empire! Buy rigs, mine digital currencies, and trade in volatile markets.</p>
+            <div class="game-goal">🎯 Goal: Build a $50,000 crypto empire!</div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label"><i class="fas fa-money-bill-wave"></i> CASH BALANCE</div>
+                <div class="stat-value" id="cash-balance">$5,000</div>
+                <div class="stat-label">Available funds</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label"><i class="fas fa-server"></i> TOTAL HASH POWER</div>
+                <div class="stat-value" id="total-hash">0 MH/s</div>
+                <div class="stat-label">Mining capacity</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label"><i class="fas fa-bolt"></i> MINING SPEED</div>
+                <div class="stat-value" id="mining-speed">0 coins/day</div>
+                <div class="stat-label">Production rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label"><i class="fas fa-chart-line"></i> NET WORTH</div>
+                <div class="stat-value" id="net-worth">$5,000</div>
+                <div class="stat-label">Total assets value</div>
+            </div>
+        </div>
+
+        <div class="game-layout">
+            <div>
+                <div class="game-panel">
+                    <h2 class="panel-title"><i class="fas fa-chart-bar"></i> Cryptocurrency Market</h2>
+                    <div class="game-table-wrapper">
+                        <table class="game-table" id="crypto-table">
+                            <thead>
+                                <tr>
+                                    <th>Crypto</th>
+                                    <th>Symbol</th>
+                                    <th>Price</th>
+                                    <th>24h Change</th>
+                                    <th>You Own</th>
+                                    <th>Mining Rate</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="crypto-list">
+                                <!-- Cryptos loaded by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="game-controls">
+                        <select class="game-input" id="crypto-select">
+                            <option value="">Select cryptocurrency...</option>
+                        </select>
+                        <input type="number" class="game-input" id="crypto-amount" placeholder="Amount" step="0.001">
+                        <button class="game-btn game-btn-buy" id="buy-crypto-btn">
+                            <i class="fas fa-shopping-cart"></i> Buy
+                        </button>
+                        <button class="game-btn game-btn-sell" id="sell-crypto-btn">
+                            <i class="fas fa-money-bill-wave"></i> Sell
+                        </button>
+                    </div>
+                </div>
+
+                <div class="game-panel">
+                    <div class="mining-animation">
+                        <div class="miner-icon" id="miner-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h3 style="margin: 15px 0 10px;">Current Hash Rate: <span class="hash-rate" id="current-hash">0 MH/s</span></h3>
+                        <button class="game-btn game-btn-action" id="mine-toggle-btn">
+                            <i class="fas fa-play"></i> Start Mining
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="game-panel">
+                    <h2 class="panel-title"><i class="fas fa-microchip"></i> Mining Rigs</h2>
+                    <div id="mining-rigs">
+                        <!-- Mining rigs loaded by JavaScript -->
+                    </div>
+                    <div class="game-controls" style="margin-top: 20px;">
+                        <button class="game-btn game-btn-action" id="upgrade-rigs-btn">
+                            <i class="fas fa-tools"></i> Upgrade All Rigs
+                        </button>
+                    </div>
+                </div>
+
+                <div class="game-panel">
+                    <h2 class="panel-title"><i class="fas fa-boxes"></i> Your Crypto Holdings</h2>
+                    <div class="portfolio-items" id="crypto-holdings">
+                        <!-- Holdings loaded by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <div style="flex: 1;">
+                        <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem;">
+                            <i class="fas fa-info-circle"></i> Market updates every 10 seconds
+                        </p>
+                    </div>
+                    <div>
+                        <button class="game-btn game-btn-secondary" id="reset-game-btn">
+                            <i class="fas fa-redo"></i> New Game
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-footer">
+            <p>💡 <strong>Tip:</strong> Upgrade mining rigs to increase hash power and mine faster!</p>
+            <p><small>Crypto Rush is a simulated game for educational purposes only.</small></p>
+        </div>
+    </div>
+
+    <script src="../script.js"></script>
+    <script src="crypto-rush.js"></script>
+</body>
+</html>
