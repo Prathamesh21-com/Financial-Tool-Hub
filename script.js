@@ -120,9 +120,8 @@ function initializeSelectionScreen() {
     });
 }
 
-// ===== BACK BUTTON LOGIC =====
+// ===== BACK BUTTON LOGIC (CORRECTED) =====
 function initializeBackButtons() {
-    // Handle calculator back buttons
     const backButtons = document.querySelectorAll('.back-btn, .calculator-back-btn, #backButton');
     
     backButtons.forEach(button => {
@@ -130,19 +129,21 @@ function initializeBackButtons() {
             button.addEventListener('click', function(e) {
                 e.preventDefault();
                 
-                // Check if we're on a calculator page
-                const isCalculatorPage = window.location.pathname.includes('calculator') || 
-                                        window.location.pathname.includes('loan') ||
+                // Check if we're on a calculator page (files in root)
+                const isCalculatorPage = window.location.pathname.includes('loan') ||
                                         window.location.pathname.includes('interest') ||
                                         window.location.pathname.includes('sip') ||
                                         window.location.pathname.includes('pv') ||
                                         window.location.pathname.includes('fv');
                 
-                // Check if we're on a game page
-                const isGamePage = window.location.pathname.includes('games/');
+                // Check if we're on a game page (files inside /games folder)
+                const isGamePage = window.location.pathname.includes('/games/');
                 
-                if (isCalculatorPage || isGamePage) {
-                    // For calculator/game pages, go back to selection screen
+                if (isCalculatorPage) {
+                    // Calculator pages are in root → go to index.html directly
+                    window.location.href = 'index.html';
+                } else if (isGamePage) {
+                    // Game pages are inside /games folder → go up one level
                     window.location.href = '../index.html';
                 } else if (document.referrer && 
                           document.referrer.includes(window.location.hostname) && 
