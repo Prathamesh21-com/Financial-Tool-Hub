@@ -143,7 +143,7 @@ export default function AboutPage() {
         <div className="text-3xl mb-3">🙏</div>
         <h2 className="text-white font-bold text-xl mb-2 font-cinzel">Thank You for Using FTH!</h2>
         <p className="text-slate-400 text-sm max-w-md mx-auto mb-4">If this platform helped your financial journey, please consider supporting it. Your support keeps it free for everyone.</p>
-        <a href="/donate" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-semibold"
+        <a href={`${import.meta.env.BASE_URL}donate`} className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-semibold"
           style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)' }}>
           <Heart size={16} className="fill-current" /> Support This Project
         </a>
